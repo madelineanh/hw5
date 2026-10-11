@@ -1,0 +1,9 @@
+.DS_Store
+.env
+__pycache__/
+node_modules/
+*.zip
+.venv/
+dist/
+.claude/
+*.corrupt-*.json

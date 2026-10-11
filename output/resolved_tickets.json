@@ -1,0 +1,252 @@
+{
+  "generated_from": "dashboard runs on data/campus_customs_new.db; output/audit_trail.json; payments and cash_accounts tables",
+  "database_reset_at": "2026-10-11T18:13:31.848945+00:00",
+  "starting_checking_balance": 3400.0,
+  "final_checking_balance": 160.0,
+  "tickets": [
+    {
+      "id": 101,
+      "type": "customer_order",
+      "final_status": "resolved",
+      "short_outcome": "Size S tee out of stock; the overdue $840 invoice #501 blocking the reprint was prepared by Accounting and approved by a human, and Tauhid was offered M/L/XL now or S by about Sept 5.",
+      "run_id": "6f6f6886-6190-447d-a1fe-ceb9bc661465",
+      "outcome_summary": "Size S is out of stock. The matching reprint is held because Bulldog Print Co cannot ship while invoice 501 remains unpaid. Prepared the overdue invoice payment for human approval; if approved on 2026-08-31, the vendor's 5-day lead time supports a conditional ETA of 2026-09-05, not a guaranteed promise. Customer update drafted, offering available sizes M/L/XL or waiting for S. Ticket work is resolved; payment still requires human approval.",
+      "agents": [
+        {
+          "agent": "Boss",
+          "contribution": "Size S is out of stock. The matching reprint is held because Bulldog Print Co cannot ship while invoice 501 remains unpaid. Prepared the overdue invoice payment for human approval; if approved on 2026-08-31, the vendor's 5-day lead time supports a conditional ETA of 2026-09-05, not a guaranteed promise. Customer update drafted, offering available sizes M/L/XL or waiting for S. Ticket work is resolved; payment still requires human approval.",
+          "mcp_tools": [
+            "get_shop_date",
+            "get_ticket",
+            "update_ticket_status"
+          ],
+          "delegated_to": [
+            "Inventory",
+            "Accounting",
+            "Customer Service"
+          ]
+        },
+        {
+          "agent": "Inventory",
+          "contribution": "Ticket 101 requests 1 \u00d7 CC-TEE-WHITE size S [get_ticket]. There are 0 on hand, so the shortfall is 1 [check_inventory_stock; requested qty from get_ticket]. Bulldog Print Co is the matching apparel reprint vendor [list_vendors] and cannot ship because invoice 501 is open for $840, due 2026-08-28 and 3 days overdue [get_vendor_open_invoices; shop date 2026-08-31 from get_shop_date]. That invoice is described as a rush reprint of CC-TEE-WHITE S, so this item is already ordered and awaiting payment [get_vendor_open_invoices]. Vendor lead time is 5 days [list_vendors]; if invoice 501 is paid on the shop date, 2026-08-31, ETA is 2026-09-05 (payment date + lead time) [get_shop_date, list_vendors]. Other sizes on hand: M 5, L 3, XL 2 [list_sku_sizes]; these are alternatives only, not substitutions.",
+          "mcp_tools": [
+            "get_ticket",
+            "check_inventory_stock",
+            "get_shop_date",
+            "list_vendors",
+            "list_sku_sizes",
+            "get_vendor_open_invoices"
+          ],
+          "delegated_to": []
+        },
+        {
+          "agent": "Accounting",
+          "contribution": "Invoice 501 is open for $840.00 to Bulldog Print Co and is 3 days overdue as of 2026-08-31. Checking has $3,400.00, with no prior payments or pending approvals, so the invoice is affordable without overdrawing. Prepared approval #1 for human approval; no money moved, and checking would be $2,560.00 if approved.",
+          "mcp_tools": [
+            "get_ticket",
+            "get_shop_date",
+            "get_cash_balance",
+            "list_pending_approvals",
+            "list_payments",
+            "get_invoice",
+            "prepare_payment"
+          ],
+          "delegated_to": []
+        },
+        {
+          "agent": "Customer Service",
+          "contribution": "Ticket 101 is for one CC-TEE-WHITE tee in size S. Size S is out of stock; sizes M, L, and XL are available in the quantities confirmed below. The size S ETA is conditional: September 5 only if the supplier can ship on August 31, so the draft presents it as an estimate rather than a promise.",
+          "mcp_tools": [
+            "get_ticket",
+            "list_sku_sizes"
+          ],
+          "delegated_to": []
+        }
+      ],
+      "human_approvals": [
+        {
+          "approval_id": 1,
+          "kind": "invoice",
+          "payee": "Bulldog Print Co",
+          "amount": 840.0,
+          "prepared_by": "accounting",
+          "status": "approved",
+          "approved_by": "Madeline Ganey",
+          "payment_id": 1,
+          "checking_before": 3400.0,
+          "checking_after": 2560.0
+        }
+      ],
+      "cash_change": -840.0,
+      "checking_after_ticket": 2560.0,
+      "customer_draft": {
+        "to": "Tauhid Zaman",
+        "subject": "Your Bulldog tee order",
+        "body": "Hi Tauhid,\n\nThank you for reaching out. Size S is currently out of stock. We have size M (5 available), size L (3 available), and size XL (2 available), or you can wait for size S.\n\nIf our supplier is able to ship on August 31, size S is expected by September 5. This timing is conditional and not guaranteed.\n\nPlease reply to let us know whether you\u2019d prefer one of the available sizes or would like to wait for size S.\n\nWarmly,\nThe Campus Customs Team",
+        "commitments": [
+          "Size S currently has 0 on hand.",
+          "Size M has 5 available; size L has 3 available; size XL has 2 available.",
+          "Size S is expected by September 5 only if the supplier is able to ship on August 31; timing is conditional and not guaranteed."
+        ]
+      },
+      "usage": {
+        "requests": 15,
+        "tool_calls": 22,
+        "input_tokens": 52574,
+        "output_tokens": 4643,
+        "total_tokens": 57217
+      }
+    },
+    {
+      "id": 102,
+      "type": "rent_notice",
+      "final_status": "resolved",
+      "short_outcome": "Landlord's notice verified against lease 1; the $2,400 rent due Sept 2 was prepared by Accounting and approved by a human, leaving $160 in checking.",
+      "run_id": "2273206f-e289-4f80-8626-80fb8ecee7af",
+      "outcome_summary": "The rent notice is accurate. Lease 1 rent of $2,400 to Elm City Properties is due 2026-09-02, two days after the shop date of 2026-08-31, and is not overdue. No payment for this rent was recorded. Prepared rent payment approval #2 for human review; no money moved. Checking has enough to cover the rent and the existing pending approval, leaving $160 if both are approved.",
+      "agents": [
+        {
+          "agent": "Boss",
+          "contribution": "The rent notice is accurate. Lease 1 rent of $2,400 to Elm City Properties is due 2026-09-02, two days after the shop date of 2026-08-31, and is not overdue. No payment for this rent was recorded. Prepared rent payment approval #2 for human review; no money moved. Checking has enough to cover the rent and the existing pending approval, leaving $160 if both are approved.",
+          "mcp_tools": [
+            "get_shop_date",
+            "get_ticket",
+            "update_ticket_status"
+          ],
+          "delegated_to": [
+            "Facilities",
+            "Accounting"
+          ]
+        },
+        {
+          "agent": "Accounting",
+          "contribution": "Checking has $3,400.00, with an existing $840.00 pending invoice approval; together with rent, total pending exposure is $3,240.00, which fits and leaves $160.00. Prepared rent approval #2 for $2,400.00 to Elm City Properties for lease 1. No money moved; a human must approve it.",
+          "mcp_tools": [
+            "get_cash_balance",
+            "list_pending_approvals",
+            "prepare_payment"
+          ],
+          "delegated_to": []
+        },
+        {
+          "agent": "Facilities",
+          "contribution": "The lease of record for the Chapel Street shop lists Elm City Properties as landlord and monthly rent of $2,400, due next on 2026-09-02. From shop date 2026-08-31, rent is due in 2 days and is not overdue; the notice's requester and \u201cdue in 2 days\u201d timing match the lease. No rent payment for lease 1 appears in the payment list, so it is not already paid according to the records checked.",
+          "mcp_tools": [
+            "get_ticket",
+            "get_lease_rent_due",
+            "get_shop_date",
+            "list_payments"
+          ],
+          "delegated_to": []
+        }
+      ],
+      "human_approvals": [
+        {
+          "approval_id": 2,
+          "kind": "rent",
+          "payee": "Elm City Properties",
+          "amount": 2400.0,
+          "prepared_by": "accounting",
+          "status": "approved",
+          "approved_by": "Madeline Ganey",
+          "payment_id": 2,
+          "checking_before": 2560.0,
+          "checking_after": 160.0
+        }
+      ],
+      "cash_change": -2400.0,
+      "checking_after_ticket": 160.0,
+      "customer_draft": null,
+      "usage": {
+        "requests": 11,
+        "tool_calls": 13,
+        "input_tokens": 35574,
+        "output_tokens": 2379,
+        "total_tokens": 37953
+      }
+    },
+    {
+      "id": 103,
+      "type": "price_override",
+      "final_status": "resolved",
+      "short_outcome": "Only 8 of 20 size M hoodies on hand; Yale AI Club was quoted the in-policy 15% discount ($49.30 each, $986 total), with no payment needed.",
+      "run_id": "7751009a-e2d1-4548-af50-47981296ea22",
+      "outcome_summary": "Offered the requested 20 size M navy hoodies at 15% off: $49.30 each, $986 total. This is within the discount policy and the quoted margin is 55.4%, above the 40% floor. Only 8 are currently on hand; the remaining 12 cannot be restocked by Bulldog Print Co while its overdue invoice remains unpaid. No firm restock date or order is confirmed. Customer draft asks the group whether it wants the 8 available now, another plan, or to wait for restock timing.",
+      "agents": [
+        {
+          "agent": "Boss",
+          "contribution": "Offered the requested 20 size M navy hoodies at 15% off: $49.30 each, $986 total. This is within the discount policy and the quoted margin is 55.4%, above the 40% floor. Only 8 are currently on hand; the remaining 12 cannot be restocked by Bulldog Print Co while its overdue invoice remains unpaid. No firm restock date or order is confirmed. Customer draft asks the group whether it wants the 8 available now, another plan, or to wait for restock timing.",
+          "mcp_tools": [
+            "get_shop_date",
+            "get_ticket",
+            "update_ticket_status"
+          ],
+          "delegated_to": [
+            "Inventory",
+            "Accounting",
+            "Customer Service"
+          ]
+        },
+        {
+          "agent": "Inventory",
+          "contribution": "CC-HOOD-NAVY size M has 8 on hand against 20 requested, leaving a shortfall of 12 (check_inventory_stock; get_ticket). The apparel reprint vendor is Bulldog Print Co (list_vendors), lead time 5 days, but it cannot ship because open invoice #501 for $840 is 3 days overdue (get_vendor_open_invoices). If that invoice is paid on the shop date 2026-08-31, the supported restock ETA is 2026-09-05; this depends on payment clearing the vendor block, and is not a firm promise. Size alternatives on hand are S: 4, L: 14, XL: 6 (list_sku_sizes); no size substitution made. Ticket 103 has no linked invoice, so there is no evidence this specific reprint is already ordered (get_ticket).",
+          "mcp_tools": [
+            "get_ticket",
+            "get_shop_date",
+            "check_inventory_stock",
+            "list_sku_sizes",
+            "list_vendors",
+            "get_vendor_open_invoices"
+          ],
+          "delegated_to": []
+        },
+        {
+          "agent": "Accounting",
+          "contribution": "Quoted the full 20-unit request. At 15% off, the order is $986.00 and meets the 40% margin floor; the deepest safe discount is 36.8%, which prices the order at $733.20 and requires human sign-off because it exceeds 15%. Invoice #501 is already queued as pending approval #1, so I did not prepare a duplicate; after all current pending approvals ($3,240.00 total), checking would have $160.00 remaining if approved.",
+          "mcp_tools": [
+            "get_shop_date",
+            "get_ticket",
+            "get_invoice",
+            "get_cash_balance",
+            "list_pending_approvals",
+            "list_payments",
+            "quote_bulk_discount",
+            "get_sku_pricing_and_margin"
+          ],
+          "delegated_to": []
+        },
+        {
+          "agent": "Customer Service",
+          "contribution": "The ticket is Yale AI Club\u2019s request for 20 size M navy hoodies. The verified shelf count is 8; with the Boss-approved quote, the draft offers the policy-compliant 15% discount at $49.30 each, $986 total for 20, without promising a restock date, shipment timing, or that an order has been placed.",
+          "mcp_tools": [
+            "get_ticket",
+            "check_inventory_stock"
+          ],
+          "delegated_to": []
+        }
+      ],
+      "human_approvals": [],
+      "cash_change": 0,
+      "checking_after_ticket": 160.0,
+      "customer_draft": {
+        "to": "Yale AI Club",
+        "subject": "Your bulk hoodie request",
+        "body": "Hi Yale AI Club team,\n\nThank you for reaching out. We can offer the policy-compliant 15% bulk discount for all 20 size M navy hoodies: $49.30 each, or $986 total. We currently have 8 in size M available, and we do not have a firm restock date to share.\n\nWould you like to take the 8 currently available, discuss another plan, or wait while we confirm restock timing? Please reply with your preference; this quote does not place an order.\n\nWarmly,\nThe Campus Customs Team",
+        "commitments": [
+          "15% discount for all 20 hoodies",
+          "$49.30 per hoodie",
+          "$986 total for 20",
+          "8 size M hoodies currently available",
+          "No firm restock date is confirmed"
+        ]
+      },
+      "usage": {
+        "requests": 20,
+        "tool_calls": 28,
+        "input_tokens": 72955,
+        "output_tokens": 6622,
+        "total_tokens": 79577
+      }
+    }
+  ]
+}

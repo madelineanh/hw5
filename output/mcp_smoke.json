@@ -1,0 +1,155 @@
+{
+  "server": "campus-customs",
+  "transport": "stdio (via .mcp.json, called through Claude Code's MCP connection)",
+  "database": "data/campus_customs_new.db",
+  "tests": [
+    {
+      "prompt": "Use the campus-customs MCP tool to check stock for CC-TEE-WHITE size S.",
+      "tool": "check_inventory_stock",
+      "arguments": {
+        "sku": "CC-TEE-WHITE",
+        "size": "S"
+      },
+      "tool_output": {
+        "found": true,
+        "sku": "CC-TEE-WHITE",
+        "name": "Classic Bulldog Tee",
+        "size": "S",
+        "qty": 0,
+        "location": "Aisle B",
+        "in_stock": false
+      },
+      "db_check": {
+        "query": "SELECT sku, name, size, qty, location FROM inventory WHERE sku = 'CC-TEE-WHITE' AND size = 'S'",
+        "db_row": {
+          "sku": "CC-TEE-WHITE",
+          "name": "Classic Bulldog Tee",
+          "size": "S",
+          "qty": 0,
+          "location": "Aisle B"
+        },
+        "matches": true
+      }
+    },
+    {
+      "prompt": "Use the campus-customs MCP tool to get the rent due for lease 1.",
+      "tool": "get_lease_rent_due",
+      "arguments": {
+        "lease_id": 1
+      },
+      "tool_output": {
+        "found": true,
+        "id": 1,
+        "space_name": "Chapel Street shop",
+        "landlord": "Elm City Properties",
+        "monthly_rent": 2400,
+        "next_due": "2026-09-02",
+        "notes": null,
+        "date_today": "2026-08-31",
+        "days_until_due": 2,
+        "overdue": false
+      },
+      "db_check": {
+        "query": "SELECT id, space_name, landlord, monthly_rent, next_due, notes FROM leases WHERE id = 1; SELECT date_today FROM desk",
+        "db_row": {
+          "id": 1,
+          "space_name": "Chapel Street shop",
+          "landlord": "Elm City Properties",
+          "monthly_rent": 2400.0,
+          "next_due": "2026-09-02",
+          "notes": null,
+          "date_today": "2026-08-31"
+        },
+        "derived": "days_until_due = 2026-09-02 - 2026-08-31 = 2; overdue = false",
+        "matches": true
+      }
+    },
+    {
+      "prompt": "Use the campus-customs MCP tool to get pricing and margin for CC-HOOD-NAVY.",
+      "tool": "get_sku_pricing_and_margin",
+      "arguments": {
+        "sku": "CC-HOOD-NAVY"
+      },
+      "tool_output": {
+        "found": true,
+        "sku": "CC-HOOD-NAVY",
+        "unit_cost": 22,
+        "list_price": 58,
+        "margin_per_unit": 36,
+        "margin_pct": 62.1
+      },
+      "db_check": {
+        "query": "SELECT sku, unit_cost, list_price FROM pricing WHERE sku = 'CC-HOOD-NAVY'",
+        "db_row": {
+          "sku": "CC-HOOD-NAVY",
+          "unit_cost": 22.0,
+          "list_price": 58.0
+        },
+        "derived": "margin_per_unit = 58 - 22 = 36; margin_pct = 36 / 58 * 100 = 62.1",
+        "matches": true
+      }
+    }
+  ],
+  "all_match": true,
+  "tested_on": "Problem 4: before any agent run, when data/campus_customs_new.db still matched the original",
+  "recheck_after_problem_9": {
+    "why": "Problem 9's human-approved rent payment (ticket 102, payment #2) moved lease 1 next_due from 2026-09-02 to 2026-10-02. The same three tools were called again through the campus-customs MCP connection on the final working database; outputs below match it exactly.",
+    "results": [
+      {
+        "tool": "check_inventory_stock",
+        "arguments": {
+          "sku": "CC-TEE-WHITE",
+          "size": "S"
+        },
+        "tool_output": {
+          "found": true,
+          "sku": "CC-TEE-WHITE",
+          "name": "Classic Bulldog Tee",
+          "size": "S",
+          "qty": 0,
+          "location": "Aisle B",
+          "in_stock": false
+        },
+        "matches_current_db": true,
+        "changed_since_problem_4": false
+      },
+      {
+        "tool": "get_lease_rent_due",
+        "arguments": {
+          "lease_id": 1
+        },
+        "tool_output": {
+          "found": true,
+          "id": 1,
+          "space_name": "Chapel Street shop",
+          "landlord": "Elm City Properties",
+          "monthly_rent": 2400,
+          "next_due": "2026-10-02",
+          "notes": null,
+          "date_today": "2026-08-31",
+          "days_until_due": 32,
+          "overdue": false
+        },
+        "matches_current_db": true,
+        "changed_since_problem_4": true,
+        "change": "next_due 2026-09-02 \u2192 2026-10-02 after the approved $2,400 rent payment"
+      },
+      {
+        "tool": "get_sku_pricing_and_margin",
+        "arguments": {
+          "sku": "CC-HOOD-NAVY"
+        },
+        "tool_output": {
+          "found": true,
+          "sku": "CC-HOOD-NAVY",
+          "unit_cost": 22,
+          "list_price": 58,
+          "margin_per_unit": 36,
+          "margin_pct": 62.1
+        },
+        "matches_current_db": true,
+        "changed_since_problem_4": false
+      }
+    ]
+  }
+}
