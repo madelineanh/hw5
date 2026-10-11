@@ -42,23 +42,23 @@
 > did you follow these below instructions for problem 5? make any adjustments necessary and then update the prompt log with these ones:
 >
 > Build the Campus Customs Agent Team
-> Create a fully connected agent team for Campus Customs with five roles: Boss, Inventory, Accounting, Facilities, and Customer Service. Use PydanticAI. Define each agent's prompt, model, and agent loop so agents can delegate work to one another.
+> Create a fully connected agent team for Campus Customs with five roles: Boss, Inventory, Accounting, Facilities, and Customer Service. Use PydanticAI. Define each agent’s prompt, model, and agent loop so agents can delegate work to one another.
 >
 > Files and models
-> - Put each agent's prompt in its own file under `backend/prompts/`.
+> - Put each agent’s prompt in its own file under `backend/prompts/`.
 > - Define the data models and types in `backend/models.py`.
 > - Put the agent implementation files under `backend/`. The specific file layout is flexible as long as all five roles are clearly represented.
 > - Use the `PORTKEY_API_KEY` environment variable for API access.
 > - Use `gpt-6-luna` for every agent. Do not use a different model for any role.
 >
-> Write a detailed prompt for each agent in your own words. Include the shop rules and the information that agent needs to do its job. Prompts that clearly explain each agent's responsibilities and limits score better than brief, generic prompts.
+> Write a detailed prompt for each agent in your own words. Include the shop rules and the information that agent needs to do its job. Prompts that clearly explain each agent’s responsibilities and limits score better than brief, generic prompts.
 >
 > MCP tools and shop data
 > Add any tools agents need to resolve the open tickets to the MCP server. Get shop facts from the MCP server using `data/campus_customs_new.db`.
 > Do not create a separate shop-tools layer that bypasses the MCP server. Agents must access shop data and tools through MCP.
 >
 > Audit trail
-> Configure the agents to append their run activity to `output/audit_trail.json`. Record enough information at each agent-loop step to audit what happened later. Append new records; do not erase the file's existing contents on each run.
+> Configure the agents to append their run activity to `output/audit_trail.json`. Record enough information at each agent-loop step to audit what happened later. Append new records; do not erase the file’s existing contents on each run.
 >
 > Harness documentation
 > In `output/harness.md`, list every agent and every MCP tool, including tools added for this problem. For each tool, identify which table it uses.
@@ -87,7 +87,7 @@
 >    - Every agent delegation you expect, including which agent is assigned to each task. Do not write only that the Boss contacts everyone.
 >    - Which MCP tools you expect each agent to use.
 >
-> Also add Cash and Reflection tabs for later problems. Leave them blank or add a short "coming later" note.
+> Also add Cash and Reflection tabs for later problems. Leave them blank or add a short “coming later” note.
 > Do not send every specialist to every ticket; plans that do this will receive a low score. After the agents resolve the tickets, compare their actual actions with your predictions.
 
 ---
@@ -124,7 +124,7 @@
 > The dashboard must:
 > 1. Display all three tickets.
 > 2. Let a user select one ticket and start the agent team on it.
-> 3. Show each agent's activity while the ticket is being processed, including what each agent says or does.
+> 3. Show each agent’s activity while the ticket is being processed, including what each agent says or does.
 > 4. Mark the ticket as resolved when the run completes.
 > 5. Show a brief summary of what each agent did for the ticket.
 > 6. Let a human approve a payment or purchase when approval is requested.
@@ -133,8 +133,8 @@
 > Backend access
 > Configure the backend to allow requests from the Vite frontend origin, usually `http://localhost:5173`. This allows the dashboard to call the backend routes from the browser.
 > Visual design and documentation
-> Give the dashboard a polished, intentional design suitable for a real service desk. Use a clear layout that makes it easy to follow each agent's activity and distinguish resolved tickets. Make the cash balance and any approval request easy to find.
-> In `output/design.md`, describe the dashboard's layout and visual choices. Explain how agent activity, resolved tickets, and cash are displayed, and why you chose that design.
+> Give the dashboard a polished, intentional design suitable for a real service desk. Use a clear layout that makes it easy to follow each agent’s activity and distinguish resolved tickets. Make the cash balance and any approval request easy to find.
+> In `output/design.md`, describe the dashboard’s layout and visual choices. Explain how agent activity, resolved tickets, and cash are displayed, and why you chose that design.
 > Run the dashboard
 > From the `frontend/` directory, run:
 >
@@ -154,7 +154,7 @@
 > 2. Resolve the tickets
 > Use the dashboard to run tickets 101, 102, and 103. Continue until all three tickets are resolved.
 > 3. Record actual agent activity
-> Open `output/desk_tickets.html`, created in Problem 6. On each ticket's tab, complete the Actual section based on the runs. Record:
+> Open `output/desk_tickets.html`, created in Problem 6. On each ticket’s tab, complete the Actual section based on the runs. Record:
 > - Which agents worked on the ticket
 > - What work the agents delegated to one another
 > - Which tools the agents used
@@ -168,7 +168,7 @@
 >
 > Verify that the final balance matches the `cash_accounts` table in the working database. Incorrect cash calculations lose points even if all tickets are marked resolved.
 > 5. Save the run results
-> Create `output/resolved_tickets.json`. For each ticket, include its ID, final status, a short outcome summary, each agent's contribution, and any human approvals.
+> Create `output/resolved_tickets.json`. For each ticket, include its ID, final status, a short outcome summary, each agent’s contribution, and any human approvals.
 > Create `output/resolved_board.html` as a page that opens by double-clicking. Include a screenshot of the React dashboard for each resolved ticket: 101, 102, and 103.
 > Append the actual runs to `output/audit_trail.json`. Preserve existing records; do not replace the file.
 > 6. Finish the harness documentation
